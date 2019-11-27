@@ -19,7 +19,7 @@ class BenchmarkCommand(Command):
 curvemath = Extension(
     'fastecdsa.curvemath',
     include_dirs=['src/', "include/"],
-    library_dirs=["libs/"],
+    library_dirs=["libs/win32/", "libs/amd64/"],
     libraries=['gmp'],
     sources=['src/curveMath.c', 'src/curve.c', 'src/point.c'],
     extra_compile_args=['-O2'],
@@ -29,7 +29,7 @@ curvemath = Extension(
 _ecdsa = Extension(
     'fastecdsa._ecdsa',
     include_dirs=['src/', "include/"],
-    library_dirs=["libs/"],
+    library_dirs=["libs/win32/", "libs/amd64/"],
     libraries=['gmp'],
     sources=['src/_ecdsa.c', 'src/curveMath.c', 'src/curve.c', 'src/point.c'],
     extra_compile_args=['-O2'],
