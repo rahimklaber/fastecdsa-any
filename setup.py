@@ -18,18 +18,22 @@ class BenchmarkCommand(Command):
 
 curvemath = Extension(
     'fastecdsa.curvemath',
-    include_dirs=['src/'],
+    include_dirs=['src/', "include/"],
+    library_dirs=["libs/"],
     libraries=['gmp'],
     sources=['src/curveMath.c', 'src/curve.c', 'src/point.c'],
-    extra_compile_args=['-O2']
+    extra_compile_args=['-O2'],
+    extra_link_args=["/NODEFAULTLIB:MSVCRT"]
 )
 
 _ecdsa = Extension(
     'fastecdsa._ecdsa',
-    include_dirs=['src/'],
+    include_dirs=['src/', "include/"],
+    library_dirs=["libs/"],
     libraries=['gmp'],
     sources=['src/_ecdsa.c', 'src/curveMath.c', 'src/curve.c', 'src/point.c'],
-    extra_compile_args=['-O2']
+    extra_compile_args=['-O2'],
+    extra_link_args=["/NODEFAULTLIB:MSVCRT"]
 )
 
 setup(
