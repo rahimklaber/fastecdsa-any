@@ -1,3 +1,5 @@
+import os
+
 from setuptools import find_packages, setup, Extension, Command
 import distutils.util as dutil
 
@@ -18,6 +20,7 @@ class BenchmarkCommand(Command):
 
 
 lib_dirs = []
+include_dirs = ['src/', 'include/'] if os.name in ('nt', 'dos') else ['src/']
 platform = dutil.get_platform()
 
 if platform == 'win32':
@@ -27,7 +30,7 @@ elif platform == 'win-amd64':
 
 curvemath = Extension(
     'fastecdsa.curvemath',
-    include_dirs=['src/', "include/"],
+    include_dirs=include_dirs,
     library_dirs=lib_dirs,
     libraries=['mpir'],
     sources=['src/curveMath.c', 'src/curve.c', 'src/point.c'],
@@ -37,7 +40,7 @@ curvemath = Extension(
 
 _ecdsa = Extension(
     'fastecdsa._ecdsa',
-    include_dirs=['src/', "include/"],
+    include_dirs=include_dirs,
     library_dirs=lib_dirs,
     libraries=['mpir'],
     sources=['src/_ecdsa.c', 'src/curveMath.c', 'src/curve.c', 'src/point.c'],
