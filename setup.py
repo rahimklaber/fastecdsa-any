@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup, Extension, Command
+import distutils.util as dutil
 
 
 class BenchmarkCommand(Command):
@@ -16,11 +17,19 @@ class BenchmarkCommand(Command):
         call(['python', '-m', 'fastecdsa.benchmark'])
 
 
+lib_dirs = []
+platform = dutil.get_platform()
+
+if platform == 'win32':
+    lib_dirs = ['libs/win32/']
+elif platform == 'win-amd64':
+    lib_dirs = ['libs/amd64/']
+
 curvemath = Extension(
     'fastecdsa.curvemath',
     include_dirs=['src/', "include/"],
-    library_dirs=["libs/win32/", "libs/amd64/"],
-    libraries=['gmp'],
+    library_dirs=lib_dirs,
+    libraries=['mpir'],
     sources=['src/curveMath.c', 'src/curve.c', 'src/point.c'],
     extra_compile_args=['-O2'],
     extra_link_args=["/NODEFAULTLIB:MSVCRT"]
@@ -29,8 +38,8 @@ curvemath = Extension(
 _ecdsa = Extension(
     'fastecdsa._ecdsa',
     include_dirs=['src/', "include/"],
-    library_dirs=["libs/win32/", "libs/amd64/"],
-    libraries=['gmp'],
+    library_dirs=lib_dirs,
+    libraries=['mpir'],
     sources=['src/_ecdsa.c', 'src/curveMath.c', 'src/curve.c', 'src/point.c'],
     extra_compile_args=['-O2'],
     extra_link_args=["/NODEFAULTLIB:MSVCRT"]
