@@ -32,7 +32,7 @@ def sign(msg, d, curve=P256, hashfunc=sha256, prehashed=False):
     if not prehashed:
         hashed = hashfunc(msg_bytes(msg)).hexdigest()
     else:
-        hashed = msg
+        hashed = msg.decode()
 
     r, s = _ecdsa.sign(
         hashed,
